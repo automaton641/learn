@@ -1,6 +1,5 @@
 ﻿using System;
-using System.IO;
-using System.Text;
+using Senses;
 
 namespace Learn
 {
@@ -8,14 +7,24 @@ namespace Learn
     {
         static void Main(string[] arguments)
         {
-            if (arguments[0].Equals("server", StringComparison.OrdinalIgnoreCase))
+            if (arguments.Length > 0)
             {
-                Server server = new Server();
+               if (arguments[0].Equals("server", StringComparison.OrdinalIgnoreCase))
+                {
+                    Server server = new Server();
+                }
+                else
+                {
+                    Client client = new Client(arguments[0]);
+                } 
             }
             else
             {
-                Client client = new Client(arguments[0]);
+                Application application = new Application();
+                application.Window = new Window("learn", 1280, 720);
+                application.Run();
             }
         }
+        
     }
 }

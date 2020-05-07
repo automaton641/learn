@@ -290,7 +290,7 @@ namespace Learn
                 Console.WriteLine("Enemy's play: {0}", play);
             }
             printGameAttributes();
-            if (winner > 0)
+            if (winner >= 0)
             {
                 if (winner < Game.PlayersCount)
                 {

@@ -28,6 +28,7 @@ namespace Learn
         private Container mainView;
         TextVisual turnVisual;
         TextVisual indication;
+        TextVisual lastPlay;
         Thread gameLogicThread;
         public void OnPlay1Clicked(object sender, EventArgs e)
         {
@@ -59,6 +60,7 @@ namespace Learn
         }
         public void GameLoop()
         {
+            int lastPlayNumber = -1;
             printGameAttributes();
             if (playerIndex == 0)
             {
@@ -100,7 +102,18 @@ namespace Learn
                 Console.WriteLine("Enemy's play: {0}", play);
             }
             printGameAttributes();
-            if (winner > 0)
+            string lastPlayText = "Last plays: " + (play + 1).ToString()+", ";
+            if (lastPlayNumber < 0)
+            {
+                lastPlayText += "none";
+            }
+            else
+            {
+                lastPlayText += (lastPlayNumber + 1).ToString();
+            }
+            lastPlayNumber = play;
+            lastPlay.Text = lastPlayText;
+            if (winner >= 0)
             {
                 if (winner < Game.PlayersCount)
                 {
@@ -153,11 +166,13 @@ namespace Learn
             }
             Container dummy;
             dummy = (Container)window.Container.Visuals[0];
-            dummy.Add(new TextVisual("Player: " + playerIndex));
+            dummy.Add(new TextVisual("Player: " + (playerIndex + 1).ToString()));
             turnVisual = new TextVisual("Turn: " + turn);
             dummy.Add(turnVisual);
             indication = new TextVisual("Indications");
             dummy.Add(indication);
+            lastPlay = new TextVisual("Last plays: none, none");
+            dummy.Add(lastPlay);
             dummy = (Container)window.Container.Visuals[1];
             for (int i = 0; i < Player.AttributesCount * Game.PlayersCount; i++)
             {
@@ -171,10 +186,12 @@ namespace Learn
             dummy = (Container)window.Container.Visuals[3];
 
             Button play1Button = new Button("Play 1");
+            play1Button.Theme = themeA;
             play1Button.OnPressed += OnPlay1Clicked;
             Button play2Button = new Button("Play 2");
             play2Button.OnPressed += OnPlay2Clicked;
             Button play3Button = new Button("Play 3");
+            play3Button.Theme = themeA;
             play3Button.OnPressed += OnPlay3Clicked;
             Button play4Button = new Button("Play 4");
             play4Button.OnPressed += OnPlay4Clicked;

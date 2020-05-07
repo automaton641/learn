@@ -1,5 +1,4 @@
 ﻿using System;
-using Senses;
 
 namespace Learn
 {
@@ -20,9 +19,7 @@ namespace Learn
             }
             else
             {
-                Application application = new Application();
-                application.Window = new Window("learn", 1280, 720);
-                application.Run();
+                VisualClient visualClient = new VisualClient();
             }
         }
         

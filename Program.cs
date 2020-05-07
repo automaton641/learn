@@ -8,13 +8,17 @@ namespace Learn
         {
             if (arguments.Length > 0)
             {
-               if (arguments[0].Equals("server", StringComparison.OrdinalIgnoreCase))
+                if (arguments[0].Equals("server", StringComparison.OrdinalIgnoreCase))
                 {
                     Server server = new Server();
                 }
+                else if (arguments[0].Equals("client", StringComparison.OrdinalIgnoreCase))
+                {
+                    Client client = new Client(arguments[1]);
+                }
                 else
                 {
-                    Client client = new Client(arguments[0]);
+                    AIClient aIClient = new AIClient(arguments[0], arguments[1]);
                 } 
             }
             else

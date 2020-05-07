@@ -6,7 +6,19 @@ namespace Senses
         private double growAdder;
         private Orientation orientation;
         List<Visual> visuals;
+        public List<Visual> Visuals
+        {
+            get {return visuals;}
+        }
         public Container(int x, int y, int width, int height, Orientation orientation) : base(x, y, width, height)
+        {
+            Build(orientation);
+        }
+        public Container(Orientation orientation) : base(0, 0, 1, 1)
+        {
+            Build(orientation);
+        }
+        private void Build(Orientation orientation)
         {
             this.orientation = orientation;
             visuals = new List<Visual>();
@@ -34,7 +46,7 @@ namespace Senses
         }
         public void Revalidate(Size size, Position position) {
             Arrange(size, position);
-            Window.RePaint();
+            Window?.RePaint();
         }
         internal override void Draw(PixelDrawer pixelDrawer)
         {

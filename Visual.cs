@@ -36,7 +36,15 @@ namespace Senses
         {
             get {return position;}
         }
+        public Visual() 
+        {
+            Build(0, 0, 1, 1);
+        }
         public Visual(int x, int y, int width, int height)
+        {
+            Build(x, y, width, height);
+        }
+        private void Build(int x, int y, int width, int height)
         {
             growRatio = 1.0;
             proportion = 1.0;

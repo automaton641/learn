@@ -5,6 +5,8 @@ namespace Learn
 {
     class Client
     {
+        private TcpClient client;
+        private NetworkStream stream;
         private long[] gameAttributes = new long[Player.AttributesCount * Game.PlayersCount];
         private byte[] playerIndexBuffer = new byte[4];
         private int playerIndex;
@@ -47,8 +49,8 @@ namespace Learn
         {
             Console.WriteLine("Connecting to server: {0} ...", server);
             Int32 port = 13000;
-            TcpClient client = new TcpClient(server, port);
-            NetworkStream stream = client.GetStream();
+            client = new TcpClient(server, port);
+            stream = client.GetStream();
             stream.Read(playerIndexBuffer, 0, playerIndexBuffer.Length);
             if (BitConverter.IsLittleEndian) 
             {
@@ -61,25 +63,7 @@ namespace Learn
             {
                 isMyTurn = true;
             }
-            stream.Read(winnerBuffer, 0, winnerBuffer.Length);
             stream.Read(attributesBuffer, 0, attributesBuffer.Length);
-            if (BitConverter.IsLittleEndian) 
-            {
-                Array.Reverse(winnerBuffer);
-            }
-            winner = BitConverter.ToInt32(winnerBuffer, 0);
-            if (winner > 0)
-            {
-                if (winner < Game.PlayersCount)
-                {
-                    Console.WriteLine("Game winner: player {0}", winner);
-                }
-                else
-                {
-                    Console.WriteLine("Game ended on draw, no one winnned");
-                }
-                goto Exit;
-            }
             fillGameAttributes();
             printGameAttributes();
         Play:

@@ -7,17 +7,18 @@ namespace Senses
         private bool shouldUpDateTextImage;
         private Bitmap textImage;
         private string text;
-        internal string Text
+        public string Text
         {
             set 
             {
                 if (!text.Equals(value))
                 {
                     text = value;
-                    shouldUpDateTextImage = true;
-                    base.Window.RePaint();
+                    shouldUpDateTextImage = true;  
+                    Window?.RePaint();
                 }
             }
+            get {return text;}
         }
         public TextVisual(string text) : base(0, 0, 1, 1)
         {
@@ -33,7 +34,7 @@ namespace Senses
             Color foreground = Theme.Foreground;
             System.Drawing.Color systemForeground = System.Drawing.Color.FromArgb(foreground.Red, foreground.Green, foreground.Blue);
             System.Drawing.Color systemBackground = System.Drawing.Color.FromArgb(0,0,0,0);
-            textImage = DrawText(text, Window.Theme.Font, systemForeground, systemBackground);
+            textImage = DrawText(text, Theme.Font, systemForeground, systemBackground);
             shouldUpDateTextImage = false;
         }
         internal override void Draw(PixelDrawer pixelDrawer)

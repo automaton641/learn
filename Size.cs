@@ -24,11 +24,13 @@ namespace Senses
         }
         public int Width
         {
-            get{ return width; }
+            get {return width;}
+            set {width = value;}
         }
         public int Height
         {
-            get{ return height; }
+            get {return height;}
+            set {height = value;}
         }
     }
 }

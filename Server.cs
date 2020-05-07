@@ -53,6 +53,7 @@ namespace Learn
             server = new TcpListener(localAddress, port);
             Byte[] bytes = new Byte[256];
             server.Start();
+        Begin:
             Console.WriteLine("Waiting for a connection... ");
             for (int playerIndex = 0; playerIndex < Game.PlayersCount; playerIndex++)
             {
@@ -62,7 +63,7 @@ namespace Learn
             }
             game = new Game();
             fillGameAttributes();
-            printGameAttributes();
+            //printGameAttributes();
             winnerBuffer = BitConverter.GetBytes(winner);
             if (BitConverter.IsLittleEndian) 
             {
@@ -76,7 +77,6 @@ namespace Learn
                     Array.Reverse(playerIndexBuffer);
                 }
                 streams[playerIndex].Write(playerIndexBuffer, 0, playerIndexBuffer.Length);
-                streams[playerIndex].Write(winnerBuffer, 0, winnerBuffer.Length);
                 streams[playerIndex].Write(attributesBuffer, 0, attributesBuffer.Length);
             }
             int currentPLayerTurn = 0;
@@ -120,7 +120,8 @@ namespace Learn
             {
                 clients[playerIndex].Close();
             }
-            server.Stop();
+            goto Begin;
+            //server.Stop();
         }
     }
 }

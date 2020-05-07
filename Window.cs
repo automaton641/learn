@@ -2,6 +2,7 @@ using System;
 using SFML.System;
 using SFML.Graphics;
 using SFML.Window;
+using System.Collections.Generic;
 namespace Senses
 {
     class Window
@@ -20,9 +21,28 @@ namespace Senses
         private string title;
         private Size size;
         private bool shouldDraw = true;
+        private List<EventHandler<TextEventArgs>> textEnteredHandlers = new List<EventHandler<TextEventArgs>>();
+        private List<EventHandler<MouseButtonEventArgs>> mouseButtonPressedHandlers = new List<EventHandler<MouseButtonEventArgs>>();
         public Container Container
         {
             get {return container;}
+            set 
+            {
+                container = value;
+                container.Window = this;
+                container.Position.X = 0;
+                Container.Position.Y = 0;
+                container.Size.Width = size.Width;
+                container.Size.Height = size.Height;
+                foreach (var handler in textEnteredHandlers)
+                {
+                    window.TextEntered -= handler;
+                }
+                foreach (var handler in mouseButtonPressedHandlers)
+                {
+                    window.MouseButtonPressed -= handler;
+                }
+            }
         }
         public Window(string title, int width, int height, Orientation orientation)
         {
@@ -34,6 +54,7 @@ namespace Senses
         }
         private void Build(string title, int width, int height, Orientation orientation)
         {
+
             theme = new Theme();
             this.title = title;
             this.size = new Size(width, height);
@@ -51,10 +72,12 @@ namespace Senses
         internal void AddTextEnteredHandler(EventHandler<TextEventArgs> onTextEntered)
         {
             window.TextEntered += onTextEntered;
+            textEnteredHandlers.Add(onTextEntered);
         }
         internal void AddMouseButtonPressedHandler(EventHandler<MouseButtonEventArgs> onMouseButtonPressed)
         {
             window.MouseButtonPressed += onMouseButtonPressed;
+            mouseButtonPressedHandlers.Add(onMouseButtonPressed);
         }
         internal void Loop()
         {
